@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respeito é Inclusão!</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #2980b9;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --light: #f5f7fa;
+      --dark: #2c3e50;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 2.2rem;
+    }
+    
+    .header-stickers {
+      font-size: 1.8rem;
+      margin-top: 10px;
+    }
+    
+    .question {
+      font-size: 1.3rem;
+      margin: 20px 0;
+      line-height: 1.5;
+      color: var(--dark);
+    }
+    
+    .image-box {
+      margin: 25px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .image-box img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .options-container {
+      display: grid;
+      gap: 12px;
+      margin: 25px 0;
+    }
+    
+    .option {
+      background: white;
+      border: 2px solid var(--secondary);
+      color: var(--secondary);
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      text-align: left;
+      font-size: 1.1rem;
+    }
+    
+    .option:hover {
+      background: var(--secondary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .option .sticker {
+      margin-right: 12px;
+      font-size: 1.5rem;
+    }
+    
+    .option.correct {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    
+    .option.incorrect {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+    }
+    
+    .progress-container {
+      background: rgba(0,0,0,0.05);
+      border-radius: 10px;
+      height: 10px;
+      margin: 25px 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: var(--secondary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    
+    .feedback {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .feedback.correct {
+      background-color: rgba(39, 174, 96, 0.1);
+      color: var(--success);
+      border-left: 5px solid var(--success);
+    }
+    
+    .feedback.incorrect {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+      border-left: 5px solid var(--danger);
+    }
+    
+    .feedback .sticker {
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+    
+    .celebration {
+      font-size: 3rem;
+      margin: 20px 0;
+      animation: bounce 0.8s infinite alternate;
+    }
+    
+    .result-container {
+      padding: 20px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-top: 30px;
+    }
+    
+    .result-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .result-score {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    
+    .result-message {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    
+    .buttons-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .btn-primary {
+      background-color: var(--success);
+    }
+    
+    .btn-secondary {
+      background-color: var(--primary);
+    }
+    
+    .btn .sticker {
+      font-size: 1.2rem;
+    }
+    
+    .hide { display: none; }
+    
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsividade */
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .question {
+        font-size: 1.1rem;
+      }
+      
+      .option {
+        padding: 12px;
+        font-size: 1rem;
+      }
+      
+      .buttons-container {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Respeito é Inclusão!</h1>
+    <div class="header-stickers">♿️👨‍🦯👩‍🦽👨‍🦼🧏‍♀️🤟</div>
+    
+    <div id="quiz-container">
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div id="question-container">
+        <div class="question" id="question-text"></div>
+        <div class="image-box" id="image-container"></div>
+        <div class="options-container" id="options-container"></div>
+      </div>
+      
+      <div id="feedback" class="feedback hide"></div>
+      <div id="celebration" class="celebration hide"></div>
+    </div>
+    
+    <div id="result-container" class="result-container hide">
+      <div class="result-title">Quiz Concluído! 🎉</div>
+      <div class="result-score" id="result-score"></div>
+      <div class="result-message" id="result-message"></div>
+      <div class="buttons-container">
+        <button class="btn btn-primary" onclick="startQuiz()">
+          <span class="sticker">🔄</span> Jogar Novamente
+        </button>
+      </div>
+    </div>
+    
+    <div class="buttons-container" id="quiz-buttons">
+      <button class="btn btn-primary hide" id="next-btn" onclick="nextQuestion()">
+        <span class="sticker">👉</span> Próxima Pergunta
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Qual dessas atitudes demonstra respeito por uma pessoa com deficiência visual?",
+        image: "https://images.unsplash.com/photo-1508511267-5edd661c6dbb",
+        options: [
+          "👂🏽 Falar mais alto para ela te ouvir melhor",
+          "✋🏽 Agarrar seu braço e puxá-la para atravessar a rua",
+          "🗣️ Perguntar se ela deseja ajuda e respeitar sua resposta",
+          "🙈 Ignorar e seguir em frente"
+        ],
+        answer: 2,
+        explanation: "👏🏽 <strong>Resposta correta!</strong> Sempre pergunte se a pessoa deseja ajuda e respeite sua resposta. Pessoas com deficiência visual são independentes e devem ter sua autonomia respeitada."
+      },
+      {
+        question: "Qual dessas frases é mais adequada ao se referir a uma pessoa com deficiência?",
+        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7",
+        options: [
+          "🏷️ Portador de deficiência",
+          "🙋🏽 Pessoa com deficiência",
+          "❌ Aleijado",
+          "🏷️ Pessoa com necessidades especiais"
+        ],
+        answer: 1,
+        explanation: "✅ <strong>Correto!</strong> O termo 'pessoa com deficiência' coloca a pessoa em primeiro lugar, seguindo a Convenção sobre os Direitos das Pessoas com Deficiência da ONU."
+      },
+      {
+        question: "Como agir ao conversar com uma pessoa surda que se comunica por Libras?",
+        image: "https://images.unsplash.com/photo-1581333100694-7b668e8a3b0a",
+        options: [
+          "🐢 Falar devagar e repetir até ela entender",
+          "📢 Gritar para facilitar a leitura labial",
+          "🙉 Conversar normalmente sem se preocupar",
+          "👀 Olhar nos olhos e usar Libras ou escrever"
+        ],
+        answer: 3,
+        explanation: "🤟 <strong>Excelente!</strong> Muitas pessoas surdas não fazem leitura labial. Libras é sua língua natural, e escrever também é uma boa alternativa."
+      },
+      {
+        question: "Qual destes NÃO é um tipo de deficiência reconhecida?",
+        image: "https://images.unsplash.com/photo-1493612276216-ee3925520721",
+        options: [
+          "👨‍🦯 Deficiência visual",
+          "👨‍🦽 Deficiência física",
+          "🧠 Deficiência intelectual",
+          "😔 Deficiência emocional"
+        ],
+        answer: 3,
+        explanation: "⚕️ <strong>Isso mesmo!</strong> 'Deficiência emocional' não é um termo técnico. As deficiências são classificadas como física, visual, auditiva, intelectual ou múltipla."
+      },
+      {
+        question: "O que significa o símbolo de acessibilidade universal (♿)?",
+        image: "https://images.unsplash.com/photo-1551651658-4c0c9b9b8a3c",
+        options: [
+          "♿ Espaços adaptados para mobilidade reduzida",
+          "🔄 Locais que aceitam todas as pessoas",
+          "🏛️ Prédios governamentais",
+          "🚻 Banheiros adaptados"
+        ],
+        answer: 0,
+        explanation: "♿ <strong>Correto!</strong> Este símbolo internacional representa espaços adaptados principalmente para usuários de cadeira de rodas e pessoas com mobilidade reduzida."
+      },
+      {
+        question: "Qual a cor associada à conscientização do autismo?",
+        image: "https://images.unsplash.com/photo-1615461065929-4f8ffed6ca40",
+        options: [
+          "🔴 Vermelho",
+          "💙 Azul",
+          "💛 Amarelo",
+          "🌈 Arco-íris"
+        ],
+        answer: 1,
+        explanation: "💙 <strong>Exato!</strong> O azul é a cor símbolo do autismo, representando a campanha 'Light It Up Blue' no Dia de Conscientização do Autismo (2 de abril)."
+      },
+      {
+        question: "O que é capacitismo?",
+        image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c",
+        options: [
+          "⚡ Capacidade de fazer muitas coisas",
+          "🤝 Respeito às pessoas com deficiência",
+          "❌ Discriminação contra pessoas com deficiência",
+          "🏋️‍♀️ Cultura de exercícios físicos"
+        ],
+        answer: 2,
+        explanation: "🚫 <strong>Isso mesmo!</strong> Capacitismo é a discriminação contra pessoas com deficiência, incluindo atitudes, comportamentos e estruturas sociais que as marginalizam."
+      },
+      {
+        question: "Como se deve chamar o cão que auxilia pessoas com deficiência visual?",
+        image: "https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80",
+        options: [
+          "🐕 Cão de ajuda",
+          "🦮 Cão-guia",
+          "🐶 Cão de serviço",
+          "🏷️ Cão de assistência"
+        ],
+        answer: 1,
+        explanation: "🦮 <strong>Correto!</strong> O termo é cão-guia. Importante: nunca distraia ou alimente um cão-guia quando ele estiver trabalhando com sua coleira."
+      },
+      {
+        question: "O que significa a sigla LIBRAS?",
+        image: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66",
+        options: [
+          "📝 Linguagem Brasileira de Sinais",
+          "🖐️ Língua Brasileira de Sinais",
+          "👂 Linguagem Brasileira de Sinais Auditivos",
+          "🇧🇷 Língua dos Brasileiros Surdos"
+        ],
+        answer: 1,
+        explanation: "🤟 <strong>Exato!</strong> LIBRAS significa Língua Brasileira de Sinais. É uma língua completa com estrutura gramatical própria, não apenas gestos."
+      },
+      {
+        question: "Qual a melhor forma de incluir uma pessoa com deficiência intelectual em uma atividade?",
+        image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70",
+        options: [
+          "🧒 Tratá-la como criança",
+          "👶 Usar linguagem infantilizada",
+          "💙 Adaptar a atividade conforme necessário",
+          "🚫 Evitar incluir para não constranger"
+        ],
+        answer: 2,
+        explanation: "💡 <strong>Ótimo!</strong> Adapte a atividade conforme necessário, mas trate a pessoa com respeito e dignidade, sem infantilização. Inclusão significa participação plena."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let selectedOption = null;
+
+    // Elementos do DOM
+    const quizContainer = document.getElementById('quiz-container');
+    const questionText = document.getElementById('question-text');
+    const imageContainer = document.getElementById('image-container');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackEl = document.getElementById('feedback');
+    const celebrationEl = document.getElementById('celebration');
+    const progressBar = document.getElementById('progress-bar');
+    const nextBtn = document.getElementById('next-btn');
+    const resultContainer = document.getElementById('result-container');
+    const resultScore = document.getElementById('result-score');
+    const resultMessage = document.getElementById('result-message');
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      quizContainer.classList.remove('hide');
+      resultContainer.classList.add('hide');
+      nextBtn.classList.add('hide');
+      feedbackEl.classList.add('hide');
+      celebrationEl.classList.add('hide');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const question = quizData[currentQuestion];
+      
+      // Atualizar progresso
+      const progressPercent = ((currentQuestion) / quizData.length) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+      
+      // Mostrar pergunta e imagem
+      questionText.textContent = question.question;
+      imageContainer.innerHTML = `<img src="${question.image}" alt="Imagem ilustrativa da pergunta">`;
+      
+      // Mostrar opções
+      optionsContainer.innerHTML = '';
+      question.options.forEach((option, index) => {
+        const optionEl = document.createElement('button');
+        optionEl.className = 'option';
+        optionEl.innerHTML = `<span class="sticker">${option.split(' ')[0]}</span>${option.substring(option.indexOf(' ') + 1)}`;
+        optionEl.onclick = () => selectOption(index);
+        optionsContainer.appendChild(optionEl);
+      });
+    }
+
+    function selectOption(index) {
+      const options = document.querySelectorAll('.option');
